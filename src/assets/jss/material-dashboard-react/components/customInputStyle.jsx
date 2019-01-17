@@ -58,8 +58,7 @@ const customInputStyle = {
     marginTop: "16px"
   },
   formControl: {
-    paddingBottom: "10px",
-    margin: "27px 0 0 0",
+    margin: "27px 0 8px 0",
     position: "relative"
   }
 };

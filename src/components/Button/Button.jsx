@@ -8,7 +8,8 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     backgroundImage: 'linear-gradient(60deg, #ab47bc, #8e24aa)',
     color: '#fff',
-    textTarnsform: 'uppercase'
+    textTarnsform: 'uppercase',
+
   },
   input: {
     display: 'none',
@@ -17,12 +18,12 @@ const styles = theme => ({
 
 function ButtonComponent(props) {
   const { classes } = props;
+  const adiitionalStyles = props.buttonColor ? { backgroundImage: 'none', backgroundColor: props.buttonColor }: null;
   return (
-    <div>
-      <Button variant="contained" className={classes.button} onClick={props.onClick}>
+    <Button style={adiitionalStyles} variant="contained" className={classes.button} onClick={props.onClick}>
         {props.buttonLabel}
-      </Button>
-    </div>
+    </Button>
+    
   );
 }
 
