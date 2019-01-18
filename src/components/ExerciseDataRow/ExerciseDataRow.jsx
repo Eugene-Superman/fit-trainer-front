@@ -27,7 +27,7 @@ class ExerciseDataRow extends React.Component {
                 <GridContainer >
                     <GridItem xs={12} sm={12} md={5 }>
                         <CustomInput
-                            labelText="Username"
+                            labelText="Exercise name"
                             id="username"
                             formControlProps={{
                                 fullWidth: true

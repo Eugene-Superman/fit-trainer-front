@@ -9,10 +9,36 @@ import CardBody from "components/Card/CardBody.jsx";
 import SelectItem from '../../components/Select/Select.jsx';
 import ButtonComponent from '../../components/Button/Button.jsx';
 
-export default class NewExercise extends React.Component {
+import { connect } from 'react-redux';
+import { addExercise } from '../../redux/actions';
+
+    class NewExercise extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+          exerciseName: '',
+          measurementType: '',
+        };
+        this.setExerciseName = this.setExerciseName.bind(this);
+        this.handleSelect = this.handleSelect.bind(this);
+        this.submitExercise = this.submitExercise.bind(this)
+      }
+
+    setExerciseName(event) {
+        this.setState({exerciseName : event.target.value})
+    }
+
+    handleSelect(value) {
+        this.setState({ measurementType: value })
+    }
+
+    submitExercise() {
+        if(this.state.exerciseName && this.state.measurementType) {
+            this.props.addExercise(this.state); 
+        }
+    }
 
     render(){
-        const unitsOfMeasurement = ['kilograms', 'lb.'];
         return(
             <div>
                 <GridContainer>
@@ -24,14 +50,15 @@ export default class NewExercise extends React.Component {
                             </CardHeader>
                             <CardBody>
                                 <CustomInput
+                                    onChange={this.setExerciseName}
                                     labelText="Username"
                                     id="username"
                                     formControlProps={{
                                         fullWidth: true
                                     }}
                                 />
-                                <SelectItem selectHeader="Measurement type" selectFor="measurement" selectItems={unitsOfMeasurement}/>
-                                <ButtonComponent buttonLabel="create exercise"/>
+                                <SelectItem selectHeader="Measurement type" updateData ={this.handleSelect} />
+                                <ButtonComponent onClick={this.submitExercise} buttonLabel="create exercise"/>
                             </CardBody>
                         </Card>
                     </GridItem>
@@ -40,3 +67,9 @@ export default class NewExercise extends React.Component {
         )
     }
 }
+
+const mapDispatchToProps = {
+    addExercise
+}
+
+export default connect(null, mapDispatchToProps)(NewExercise);;

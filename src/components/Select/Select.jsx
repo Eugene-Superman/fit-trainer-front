@@ -26,22 +26,30 @@ class SimpleSelect extends React.Component {
 
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
+    this.props.updateData(event.target.value);
   };
 
   render() {
-    const { classes } = this.props;
-    const selectFor = this.props.selectFor;
-    let items = this.props.selectItems;
+    const { classes, selectFor } = this.props;
+    let selectValue = '';
+
+    if (selectFor){ 
+      selectValue = selectFor;
+    } else if(this.state[selectFor]) {
+      selectValue = this.state[selectFor];
+    } 
+
+    let measurements = ['kg', 'lb'];
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor={selectFor + "helper"}>{this.props.selectHeader}</InputLabel>
           <Select
-            value={this.state[selectFor] ? this.state[selectFor]: ''}
+            value={selectValue }
             onChange={this.handleChange}
             input={<Input name={selectFor} id={selectFor + "helper"} />}
           >
-           {items.map((val, index) => <MenuItem key={index} value={val}>{val}</MenuItem>)}
+           {measurements.map((val, index) => <MenuItem key={index} value={val}>{val}</MenuItem>)}
           </Select>
         </FormControl>
       </form>

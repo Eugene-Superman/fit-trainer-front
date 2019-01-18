@@ -1,0 +1,85 @@
+import React from "react";
+
+import Card from "components/Card/Card.jsx";
+import CardHeader from "components/Card/CardHeader.jsx";
+import CardBody from "components/Card/CardBody.jsx";
+import ButtonComponent from 'components/Button/Button.jsx';
+import GridItem from "components/Grid/GridItem.jsx";
+import GridContainer from "components/Grid/GridContainer.jsx";
+import CustomInput from "components/CustomInput/CustomInput.jsx";
+import EditButtons from "components/EditButtons/EditButtons.jsx";
+import SelectItem from 'components/Select/Select.jsx';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+
+import { connect } from 'react-redux';
+
+const styles = {
+    divContainer: {
+        borderBottom: '1px solid silver', 
+        marginBottom: '20px', 
+        paddingBottom: '20px'
+    },
+  };
+
+class EditExercises extends React.Component {
+    constructor(props) {
+        super(props);
+        this.handleSelect = this.handleSelect.bind(this);
+
+    }
+    handleSelect(value) {
+        this.setState({ measurementType: value })
+    }
+
+    render(){
+        const { classes, exercises } = this.props;
+        console.log(exercises)
+        return(
+            <div>  
+                <Card>
+                    <CardHeader color="primary">
+                        <h4>Edit exercises</h4>
+                    </CardHeader>
+                    <CardBody>
+                    {exercises.map((element, index) => {
+                        return(
+                            <div key={index} className={classes.divContainer}>  
+                                <GridContainer >
+                                    <GridItem xs={12} sm={12} md={5 }>
+                                    <CustomInput
+                                        inputValue={element.exerciseName}
+                                        labelText="Exercise name"
+                                        id="username"
+                                        formControlProps={{
+                                            fullWidth: true
+                                        }}
+                                        />
+                                    </GridItem>
+                                    <GridItem xs={12} sm={12} md={4}>
+                                        <SelectItem updateData={this.handleSelect} selectHeader="Measurement type" selectFor={element.measurementType} />
+                                    </GridItem>
+                                    <GridItem xs={12} sm={12} md={3}>
+                                        <EditButtons />
+                                    </GridItem>
+                                </GridContainer>               
+                            </div>
+                        )
+                    })}
+                        <ButtonComponent buttonLabel="update exercises"/>
+                    </CardBody>
+                </Card>
+            </div>
+        )
+    }
+}
+
+EditExercises.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = state => ({
+    exercises: state.allExercises
+})
+
+export default connect(mapStateToProps, null)(withStyles(styles)(EditExercises));
