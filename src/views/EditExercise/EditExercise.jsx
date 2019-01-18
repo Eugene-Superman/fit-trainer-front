@@ -4,7 +4,7 @@ import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import ButtonComponent from 'components/Button/Button.jsx';
-import DataRow from 'components/DataRow/DataRow.jsx';
+import ExerciseDataRow from 'components/ExerciseDataRow/ExerciseDataRow.jsx';
 
 export default class NewExEditExerciseercise extends React.Component {
 
@@ -16,7 +16,7 @@ export default class NewExEditExerciseercise extends React.Component {
                         <h4>Edit exercises</h4>
                     </CardHeader>
                     <CardBody>
-                        <DataRow />
+                        <ExerciseDataRow />
                         <ButtonComponent buttonLabel="update exercises"/>
                     </CardBody>
                 </Card>

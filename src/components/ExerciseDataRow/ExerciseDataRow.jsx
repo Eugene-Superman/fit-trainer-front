@@ -3,11 +3,8 @@ import React from "react";
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
-import SelectItem from '../../components/Select/Select.jsx';
-import ButtonComponent from '../../components/Button/Button.jsx';
-import ArrowUpwardOutlined from '@material-ui/icons/ArrowUpwardOutlined.js';
-import ArrowDownwardOutlined from '@material-ui/icons/ArrowDownwardOutlined.js';
-import CancelOutlined from '@material-ui/icons/CancelOutlined.js';
+import EditButtons from "components/EditButtons/EditButtons.jsx";
+import SelectItem from '../Select/Select.jsx';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 
@@ -20,7 +17,7 @@ const styles = {
     },
   };
 
-class DataRow extends React.Component {
+class ExerciseDataRow extends React.Component {
 
     render(){
         const { classes } = this.props;
@@ -28,7 +25,7 @@ class DataRow extends React.Component {
         return(
             <div className={classes.divContainer}>  
                 <GridContainer >
-                    <GridItem xs={12} sm={12} md={5}>
+                    <GridItem xs={12} sm={12} md={5 }>
                         <CustomInput
                             labelText="Username"
                             id="username"
@@ -37,22 +34,20 @@ class DataRow extends React.Component {
                             }}
                         />
                     </GridItem>
-                    <GridItem xs={12} sm={12} md={4}>
-                        <SelectItem selectHeader="Measurement type" selectFor="measurement" selectItems={unitsOfMeasurement}/>
-                    </GridItem>
+                        <GridItem xs={12} sm={12} md={4}>
+                            <SelectItem selectHeader="Measurement type" selectFor="measurement" selectItems={unitsOfMeasurement}/>
+                        </GridItem>
                     <GridItem xs={12} sm={12} md={3}>
-                        <ButtonComponent buttonColor='#00abc1' buttonLabel={<ArrowUpwardOutlined/>} />
-                        <ButtonComponent buttonColor='#00abc1' buttonLabel={<ArrowDownwardOutlined />} />
-                        <ButtonComponent buttonColor='#ff9900' buttonLabel={<CancelOutlined/>} />
+                        <EditButtons />
                     </GridItem>
-                </GridContainer>              
+                </GridContainer>               
             </div>
         )
     }
 }
 
-DataRow.propTypes = {
+ExerciseDataRow.propTypes = {
     classes: PropTypes.object.isRequired,
-  };
+};
 
-export default withStyles(styles)(DataRow);
+export default withStyles(styles)(ExerciseDataRow);

@@ -15,7 +15,6 @@ const style = {
 
 function GridItem({ ...props }) {
   const { classes, children, ...rest } = props;
-  console.log(props)
   return (
     <Grid item {...rest} className={classes.grid + " " + classes.gridItem}>
       {children}
