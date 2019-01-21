@@ -32,8 +32,6 @@ class SimpleSelect extends React.Component {
   render() {
     const { classes, selectFor, measurements } = this.props;
 
-    console.log('this.props', this.props)
-
     let selectValue = "";
 
     if (selectFor) {

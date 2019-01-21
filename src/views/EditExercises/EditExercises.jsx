@@ -22,26 +22,77 @@ const styles = {
 };
 
 class EditExercises extends React.Component {
-  propTypes = {
+  static propTypes = {
     classes: PropTypes.object.isRequired
   };
 
-  state = { exercises: [] };
+  state = { exercises: [], changeableExercises: [], copyMfucker: [], selectedMeasurement: "" };
 
   componentDidMount = () => {
     this.setState({ exercises: this.props.exercises });
+    this.setState({ changeableExercises: Object.assign([], this.props.exercises)});
+  };
+
+  /*INPUTS*/
+  selectUpdate = index => val => {
+    const elementToChange = this.state.changeableExercises;
+    elementToChange[index].measurementType = val;
+    this.setState({ changeableExercises: elementToChange });
   };
 
   changeInput = index => event => {
-    console.log("event", index, event);
+    const elementToChange = this.state.changeableExercises;
+    elementToChange[index].exerciseName = event.target.value;
+    this.setState({ changeableExercises: elementToChange });
+  };
+  /*INPUTS*/
+  //[a, b] = [b, a];
+  /*BUTTON HANDLERS*/
+  moveExerciseUp = index => {
+    if (index) {
+      const elementToChange = this.state.changeableExercises;
+      [elementToChange[index - 1], elementToChange[index]] = [
+        elementToChange[index],
+        elementToChange[index - 1]
+      ];
+      this.setState({ changeableExercises: elementToChange });
+    }
   };
 
-  handleSelect = value => {
-    this.setState({ measurementType: value });
+  moveExerciseDown = index => {
+      const elementToChange = this.state.changeableExercises;
+      if(index < elementToChange.length-1) {
+        [elementToChange[index + 1], elementToChange[index]] = [
+          elementToChange[index],
+          elementToChange[index + 1]
+        ];
+        this.setState({ changeableExercises: elementToChange });
+      }
   };
 
+  removeExercise = index => {
+    const elementToChange = this.state.changeableExercises;
+    elementToChange.splice(index, 1);
+    this.setState({ changeableExercises: elementToChange });
+  
+  };
+
+  updateChanges = () => {
+    console.log(this.state.changeableExercises)
+    this.setState({ exercises: this.state.changeableExercises})
+    console.log('this.state.exersices', this.state.exercises)
+  };
+
+  /*BUTTON HANDLERS*/
   render() {
     const { classes } = this.props;
+    const weightMeasurements = [
+      { index: 0, label: "kg" },
+      { index: 1, label: "lb" }
+    ];
+    const changedElements = this.state.changeableExercises;
+    
+    console.log('changedElements', changedElements)
     return (
       <div>
         <Card>
@@ -49,7 +100,7 @@ class EditExercises extends React.Component {
             <h4>Edit exercises</h4>
           </CardHeader>
           <CardBody>
-            {this.state.exercises.map((element, index) => {
+            {changedElements.map((element, index) => {
               return (
                 <div key={index} className={classes.divContainer}>
                   <GridContainer>
@@ -66,23 +117,24 @@ class EditExercises extends React.Component {
                     </GridItem>
                     <GridItem xs={12} sm={12} md={4}>
                       <SelectItem
-                        updateData={this.handleSelect}
+                        updateData={this.selectUpdate(index)}
                         selectHeader="Measurement type"
-                        measurements={[
-                          { index: 0, label: "kg" },
-                          { index: 1, label: "lb" }
-                        ]}
+                        measurements={weightMeasurements}
                         selectFor={element.measurementType}
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={3}>
-                      <EditButtons />
+                      <EditButtons
+                        buttonUp={() => this.moveExerciseUp(index)}
+                        buttonDown={() => this.moveExerciseDown(index)}
+                        removeExercise={() => this.removeExercise(index)}
+                      />
                     </GridItem>
                   </GridContainer>
                 </div>
               );
             })}
-            <ButtonComponent buttonLabel="update exercises" />
+            <ButtonComponent buttonLabel="update exercises" onClick={this.updateChanges}/>
           </CardBody>
         </Card>
       </div>
