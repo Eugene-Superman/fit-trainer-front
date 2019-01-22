@@ -22,23 +22,22 @@ const styles = theme => ({
 });
 
 class SimpleSelect extends React.Component {
-  state = {};
+  state = {selectName:'', selectedIndex: null};
+
+  componentDidMount = () => {
+    //this.setState({ measurements: this.props.measurements });
+  };
 
   handleChange = event => {
-    this.setState({ [event.target.name]: event.target.value });
+    this.setState({ selectedIndex: event.target.value});
+    this.setState({ selectName: this.props.measurements[event.target.value]});
     this.props.updateData(event.target.value);
   };
 
   render() {
     const { classes, selectFor, measurements } = this.props;
 
-    let selectValue = "";
-
-    if (selectFor) {
-      selectValue = selectFor;
-    } else if (this.state[selectFor]) {
-      selectValue = this.state[selectFor];
-    }
+    console.log('this.state.selectName', this.state.selectName)
 
     return (
       <form className={classes.root} autoComplete="off">
@@ -47,13 +46,13 @@ class SimpleSelect extends React.Component {
             {this.props.selectHeader}
           </InputLabel>
           <Select
-            value={selectValue}
+            value={this.state.selectName}
             onChange={this.handleChange}
-            input={<Input name={selectFor} id={selectFor + "helper"} />}
+            input={<Input name="selectName" id={selectFor + "helper"} />}
           >
-            {measurements.map(({ label, index }) => (
-              <MenuItem key={index} value={label}>
-                {label}
+            {measurements.map((element, index) => (
+              <MenuItem key={index} value={index}>
+                {element}
               </MenuItem>
             ))}
           </Select>

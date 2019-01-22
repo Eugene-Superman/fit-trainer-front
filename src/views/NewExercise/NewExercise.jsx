@@ -1,5 +1,8 @@
 import React from "react";
 
+import { connect } from "react-redux";
+import { addExercise } from "../../redux/actions";
+
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
@@ -8,31 +11,23 @@ import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
 import SelectItem from "../../components/Select/Select.jsx";
 import ButtonComponent from "../../components/Button/Button.jsx";
-
-import { connect } from "react-redux";
-import { addExercise } from "../../redux/actions";
+import SubmitNotification from "components/SubmitNotification/SubmitNotification";
+import { WEIGHT_MEASUREMENTS } from 'constants/constants';
 
 class NewExercise extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      exerciseName: "",
-      measurementType: ""
-    };
-    this.setExerciseName = this.setExerciseName.bind(this);
-    this.handleSelect = this.handleSelect.bind(this);
-    this.submitExercise = this.submitExercise.bind(this);
-  }
 
-  setExerciseName(event) {
+  state = { exerciseName: "", measurementType: "" };
+
+  setExerciseName = event => {
     this.setState({ exerciseName: event.target.value });
   }
 
-  handleSelect(value) {
-    this.setState({ measurementType: value });
+  handleSelect = value => {
+    console.log('value', value)
+    this.setState({ measurementType: WEIGHT_MEASUREMENTS[+value] });
   }
 
-  submitExercise() {
+  submitExercise= () => {
     if (this.state.exerciseName && this.state.measurementType) {
       this.props.addExercise(this.state);
     }
@@ -59,10 +54,7 @@ class NewExercise extends React.Component {
                 />
                 <SelectItem
                   selectHeader="Measurement type"
-                  measurements={[
-                    { index: 0, label: "kg" },
-                    { index: 1, label: "lb" }
-                  ]}
+                  measurements={WEIGHT_MEASUREMENTS}
                   updateData={this.handleSelect}
                 />
                 <ButtonComponent

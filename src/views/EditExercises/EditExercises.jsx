@@ -14,6 +14,8 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import EditButtons from "components/EditButtons/EditButtons.jsx";
 import SelectItem from "components/Select/Select.jsx";
 
+import { WEIGHT_MEASUREMENTS } from 'constants/constants';
+
 const styles = {
   divContainer: {
     borderBottom: "1px solid silver",
@@ -37,7 +39,7 @@ class EditExercises extends React.Component {
   /*INPUTS*/
   selectUpdate = index => val => {
     const elementToChange = this.state.changeableExercises;
-    elementToChange[index].measurementType = val;
+    elementToChange[index].measurementType = WEIGHT_MEASUREMENTS[val];
     this.setState({ changeableExercises: elementToChange });
   };
 
@@ -84,10 +86,6 @@ class EditExercises extends React.Component {
   /*BUTTON HANDLERS*/
   render() {
     const { classes } = this.props;
-    const weightMeasurements = [
-      { index: 0, label: "kg" },
-      { index: 1, label: "lb" }
-    ];
     const changedElements = this.state.changeableExercises;
 
     return (
@@ -116,7 +114,7 @@ class EditExercises extends React.Component {
                       <SelectItem
                         updateData={this.selectUpdate(index)}
                         selectHeader="Measurement type"
-                        measurements={weightMeasurements}
+                        measurements={WEIGHT_MEASUREMENTS}
                         selectFor={element.measurementType}
                       />
                     </GridItem>
