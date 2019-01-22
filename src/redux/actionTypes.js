@@ -1,2 +1,3 @@
 export const ADD_EXERCISE = "ADD_EXERCISE";
+export const EDIT_EXERCISES = "EDIT_EXERCISES";
 export const ADD_WORKOUT = "ADD_WORKOUT";

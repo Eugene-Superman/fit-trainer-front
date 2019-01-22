@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
+import { editExercises } from "redux/actions";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
-
+import { cloneDeep } from "lodash";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
@@ -26,11 +27,11 @@ class EditExercises extends React.Component {
     classes: PropTypes.object.isRequired
   };
 
-  state = { exercises: [], changeableExercises: [], copyMfucker: [], selectedMeasurement: "" };
+  state = { changeableExercises: [] };
 
   componentDidMount = () => {
-    this.setState({ exercises: this.props.exercises });
-    this.setState({ changeableExercises: Object.assign([], this.props.exercises)});
+    //const changeableExercises =
+    this.setState({ changeableExercises: cloneDeep(this.props.exercises) });
   };
 
   /*INPUTS*/
@@ -46,7 +47,7 @@ class EditExercises extends React.Component {
     this.setState({ changeableExercises: elementToChange });
   };
   /*INPUTS*/
-  //[a, b] = [b, a];
+
   /*BUTTON HANDLERS*/
   moveExerciseUp = index => {
     if (index) {
@@ -60,27 +61,24 @@ class EditExercises extends React.Component {
   };
 
   moveExerciseDown = index => {
-      const elementToChange = this.state.changeableExercises;
-      if(index < elementToChange.length-1) {
-        [elementToChange[index + 1], elementToChange[index]] = [
-          elementToChange[index],
-          elementToChange[index + 1]
-        ];
-        this.setState({ changeableExercises: elementToChange });
-      }
+    const elementToChange = this.state.changeableExercises;
+    if (index < elementToChange.length - 1) {
+      [elementToChange[index + 1], elementToChange[index]] = [
+        elementToChange[index],
+        elementToChange[index + 1]
+      ];
+      this.setState({ changeableExercises: elementToChange });
+    }
   };
 
   removeExercise = index => {
     const elementToChange = this.state.changeableExercises;
     elementToChange.splice(index, 1);
     this.setState({ changeableExercises: elementToChange });
-  
   };
 
   updateChanges = () => {
-    console.log(this.state.changeableExercises)
-    this.setState({ exercises: this.state.changeableExercises})
-    console.log('this.state.exersices', this.state.exercises)
+    this.props.editExercises(this.state.changeableExercises);
   };
 
   /*BUTTON HANDLERS*/
@@ -91,8 +89,7 @@ class EditExercises extends React.Component {
       { index: 1, label: "lb" }
     ];
     const changedElements = this.state.changeableExercises;
-    
-    console.log('changedElements', changedElements)
+
     return (
       <div>
         <Card>
@@ -134,7 +131,10 @@ class EditExercises extends React.Component {
                 </div>
               );
             })}
-            <ButtonComponent buttonLabel="update exercises" onClick={this.updateChanges}/>
+            <ButtonComponent
+              buttonLabel="update exercises"
+              onClick={() => this.props.editExercises(changedElements)}
+            />
           </CardBody>
         </Card>
       </div>
@@ -146,4 +146,11 @@ const mapStateToProps = state => ({
   exercises: state.allExercises
 });
 
-export default connect(mapStateToProps)(withStyles(styles)(EditExercises));
+const mapDispatchToProps = {
+  editExercises
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withStyles(styles)(EditExercises));

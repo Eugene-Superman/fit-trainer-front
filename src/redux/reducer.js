@@ -1,4 +1,4 @@
-import { ADD_EXERCISE, ADD_WORKOUT } from "./actionTypes";
+import { ADD_EXERCISE, ADD_WORKOUT, EDIT_EXERCISES } from "./actionTypes";
 
 const initialState = {
   allExercises: [],
@@ -29,7 +29,12 @@ export const rootReducer = (state = initialState, action) => {
           }
         ]
       };
-      case ADD_WORKOUT:
+    case EDIT_EXERCISES:
+      return {
+        ...state,
+        allExercises: action.payload
+      } ;
+    case ADD_WORKOUT:
       return {
         ...state,
         allExercises: [
