@@ -2,6 +2,7 @@ import React from "react";
 
 import { connect } from "react-redux";
 import { addWorkout } from "../../redux/actions";
+import { cloneDeep } from "lodash";
 
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
@@ -12,38 +13,41 @@ import GridContainer from "components/Grid/GridContainer.jsx";
 import CustomInput from "components/CustomInput/CustomInput.jsx";
 import EditButtons from "components/EditButtons/EditButtons.jsx";
 import SelectItem from "components/Select/Select.jsx";
-//import WorkoutDataRow from "components/WorkoutDataRow/WorkoutDataRow.jsx";
 
 class NewWorkout extends React.Component {
   state = {
     exercises: [],
     allWorkouts: [],
-    workout: [{ workoutExercise: "", repeats: 0, measurement: "" }],
-    exercisesName: [],
-    exerciseIndex: null,
-    workEx: ""
+    workout: [
+      { workoutExercise: "", repeats: 0, measurement: "", measurementType: "" }
+    ],
+    exercisesName: []
   };
 
   componentDidMount = () => {
     this.setState({ exercises: this.props.exercises });
     const names = [];
     this.props.exercises.map(el => {
-      names.push(el);
+      names.push(el.exerciseName);
     });
     this.setState({ exercisesName: names });
     this.setState({ allWorkouts: this.props.allWorkouts });
   };
 
-  handleSelect = value => {
-    this.setState({ exerciseIndex: value });
+  handleSelect = index => value => {
+    const elementToChange = cloneDeep(this.state.workout);
+    elementToChange[index].workoutExercise = this.state.exercises[
+      value
+    ].exerciseName;
+    elementToChange[index].measurementType = this.state.exercises[
+      value
+    ].measurementType;
+    this.setState({ workout: elementToChange });
   };
 
   render() {
-    const exercises = this.state.exercises;
     const exercisesName = this.state.exercisesName;
     const workout = this.state.workout;
-
-    console.log('exercisesName', exercisesName)
 
     return (
       <div>
@@ -58,9 +62,9 @@ class NewWorkout extends React.Component {
                 <GridContainer key={index}>
                   <GridItem xs={12} sm={12} md={3}>
                     <SelectItem
-                      updateData={this.handleSelect}
+                      updateData={this.handleSelect(index)}
                       selectHeader="Exercise name"
-                      measurements={exercisesName}
+                      arrayForSelect={exercisesName}
                       selectFor={element.index}
                     />
                   </GridItem>
@@ -83,7 +87,7 @@ class NewWorkout extends React.Component {
                         fullWidth: true
                       }}
                     />
-                    {/* {zaglushka} */}
+                    {element.measurementType}
                   </GridItem>
                   <GridItem xs={12} sm={12} md={3}>
                     <EditButtons />

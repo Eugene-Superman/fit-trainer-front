@@ -22,35 +22,30 @@ const styles = theme => ({
 });
 
 class SimpleSelect extends React.Component {
-  state = {selectName:'', selectedIndex: null};
-
-  componentDidMount = () => {
-    //this.setState({ measurements: this.props.measurements });
+  static propTypes = {
+    classes: PropTypes.object.isRequired
   };
 
+  state = { selectName: "" };
+
   handleChange = event => {
-    this.setState({ selectedIndex: event.target.value});
-    this.setState({ selectName: this.props.measurements[event.target.value]});
+    this.setState({ [event.target.name]: event.target.value });
     this.props.updateData(event.target.value);
   };
 
   render() {
-    const { classes, selectFor, measurements } = this.props;
-
-    console.log('this.state.selectName', this.state.selectName)
+    const { classes, selectFor, arrayForSelect } = this.props;
 
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
-          <InputLabel htmlFor={selectFor + "helper"}>
-            {this.props.selectHeader}
-          </InputLabel>
+          <InputLabel htmlFor={selectFor + "helper"}>{selectFor}</InputLabel>
           <Select
             value={this.state.selectName}
             onChange={this.handleChange}
             input={<Input name="selectName" id={selectFor + "helper"} />}
           >
-            {measurements.map((element, index) => (
+            {arrayForSelect.map((element, index) => (
               <MenuItem key={index} value={index}>
                 {element}
               </MenuItem>
@@ -61,9 +56,5 @@ class SimpleSelect extends React.Component {
     );
   }
 }
-
-SimpleSelect.propTypes = {
-  classes: PropTypes.object.isRequired
-};
 
 export default withStyles(styles)(SimpleSelect);

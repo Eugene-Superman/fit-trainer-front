@@ -12,26 +12,24 @@ import CardBody from "components/Card/CardBody.jsx";
 import SelectItem from "../../components/Select/Select.jsx";
 import ButtonComponent from "../../components/Button/Button.jsx";
 import SubmitNotification from "components/SubmitNotification/SubmitNotification";
-import { WEIGHT_MEASUREMENTS } from 'constants/constants';
+import { WEIGHT_MEASUREMENTS } from "constants/constants";
 
 class NewExercise extends React.Component {
-
   state = { exerciseName: "", measurementType: "" };
 
   setExerciseName = event => {
     this.setState({ exerciseName: event.target.value });
-  }
+  };
 
   handleSelect = value => {
-    console.log('value', value)
-    this.setState({ measurementType: WEIGHT_MEASUREMENTS[+value] });
-  }
+    this.setState({ measurementType: WEIGHT_MEASUREMENTS[value] });
+  };
 
-  submitExercise= () => {
+  submitExercise = () => {
     if (this.state.exerciseName && this.state.measurementType) {
       this.props.addExercise(this.state);
     }
-  }
+  };
 
   render() {
     return (
@@ -54,7 +52,7 @@ class NewExercise extends React.Component {
                 />
                 <SelectItem
                   selectHeader="Measurement type"
-                  measurements={WEIGHT_MEASUREMENTS}
+                  arrayForSelect={WEIGHT_MEASUREMENTS}
                   updateData={this.handleSelect}
                 />
                 <ButtonComponent

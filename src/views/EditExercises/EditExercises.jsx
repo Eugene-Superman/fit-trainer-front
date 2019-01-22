@@ -14,7 +14,7 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import EditButtons from "components/EditButtons/EditButtons.jsx";
 import SelectItem from "components/Select/Select.jsx";
 
-import { WEIGHT_MEASUREMENTS } from 'constants/constants';
+import { WEIGHT_MEASUREMENTS } from "constants/constants";
 
 const styles = {
   divContainer: {
@@ -32,28 +32,27 @@ class EditExercises extends React.Component {
   state = { changeableExercises: [] };
 
   componentDidMount = () => {
-    //const changeableExercises =
     this.setState({ changeableExercises: cloneDeep(this.props.exercises) });
   };
 
   /*INPUTS*/
   selectUpdate = index => val => {
-    const elementToChange = this.state.changeableExercises;
+    const elementToChange = cloneDeep(this.state.changeableExercises);
     elementToChange[index].measurementType = WEIGHT_MEASUREMENTS[val];
     this.setState({ changeableExercises: elementToChange });
   };
 
   changeInput = index => event => {
-    const elementToChange = this.state.changeableExercises;
+    const elementToChange = cloneDeep(this.state.changeableExercises);
     elementToChange[index].exerciseName = event.target.value;
     this.setState({ changeableExercises: elementToChange });
   };
-  /*INPUTS*/
+  /*END OF INPUT HANDLERS*/
 
   /*BUTTON HANDLERS*/
   moveExerciseUp = index => {
     if (index) {
-      const elementToChange = this.state.changeableExercises;
+      const elementToChange = cloneDeep(this.state.changeableExercises);
       [elementToChange[index - 1], elementToChange[index]] = [
         elementToChange[index],
         elementToChange[index - 1]
@@ -63,7 +62,7 @@ class EditExercises extends React.Component {
   };
 
   moveExerciseDown = index => {
-    const elementToChange = this.state.changeableExercises;
+    const elementToChange = cloneDeep(this.state.changeableExercises);
     if (index < elementToChange.length - 1) {
       [elementToChange[index + 1], elementToChange[index]] = [
         elementToChange[index],
@@ -74,7 +73,7 @@ class EditExercises extends React.Component {
   };
 
   removeExercise = index => {
-    const elementToChange = this.state.changeableExercises;
+    const elementToChange = cloneDeep(this.state.changeableExercises);
     elementToChange.splice(index, 1);
     this.setState({ changeableExercises: elementToChange });
   };
@@ -82,8 +81,8 @@ class EditExercises extends React.Component {
   updateChanges = () => {
     this.props.editExercises(this.state.changeableExercises);
   };
+  /*END OF BUTTON HANDLERS*/
 
-  /*BUTTON HANDLERS*/
   render() {
     const { classes } = this.props;
     const changedElements = this.state.changeableExercises;
@@ -114,7 +113,7 @@ class EditExercises extends React.Component {
                       <SelectItem
                         updateData={this.selectUpdate(index)}
                         selectHeader="Measurement type"
-                        measurements={WEIGHT_MEASUREMENTS}
+                        arrayForSelect={WEIGHT_MEASUREMENTS}
                         selectFor={element.measurementType}
                       />
                     </GridItem>
