@@ -9,13 +9,13 @@ const initialExercise = {
   exerciseName: "",
   measurementType: ""
 };
-
+/*
 const initialWorkout = {
-  exerciseIndex: null,
-  repeats: 0,
-  measurementCoount: 0
+  exerciseIndex: '',
+  repeats: '',
+  measurementCount: ''
 };
-
+*/
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_EXERCISE:
@@ -37,13 +37,7 @@ export const rootReducer = (state = initialState, action) => {
     case ADD_WORKOUT:
       return {
         ...state,
-        allExercises: [
-          ...state.allWorkouts,
-          {
-            ...initialWorkout,
-            ...action.payload
-          }
-        ]
+        allWorkouts: action.payload
       };
     default:
       return state;

@@ -35,13 +35,14 @@ class SimpleSelect extends React.Component {
 
   render() {
     const { classes, selectFor, arrayForSelect } = this.props;
+    const {selectName} = this.state;
 
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
           <InputLabel htmlFor={selectFor + "helper"}>{selectFor}</InputLabel>
           <Select
-            value={this.state.selectName}
+            value={selectName}
             onChange={this.handleChange}
             input={<Input name="selectName" id={selectFor + "helper"} />}
           >

@@ -78,9 +78,6 @@ class EditExercises extends React.Component {
     this.setState({ changeableExercises: elementToChange });
   };
 
-  updateChanges = () => {
-    this.props.editExercises(this.state.changeableExercises);
-  };
   /*END OF BUTTON HANDLERS*/
 
   render() {
