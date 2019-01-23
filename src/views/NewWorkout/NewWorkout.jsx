@@ -129,7 +129,8 @@ console.log('this.props.allWorkouts', this.props.allWorkouts)
                     <SelectItem
                       updateData={this.handleSelect(index)}
                       selectHeader="Exercise name"
-                      arrayForSelect={exercisesName}         
+                      arrayForSelect={exercisesName}
+                      selectFor={exercises[element.exerciseIndex]? exercises[element.exerciseIndex].exerciseName: ""}         
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={3}>
