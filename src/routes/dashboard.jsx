@@ -7,7 +7,6 @@ import DashboardPage from "views/Dashboard/Dashboard.jsx";
 import NewExercise from "views/NewExercise/NewExercise.jsx";
 import EditExercises from "views/EditExercises/EditExercises.jsx";
 import NewWorkout from "views/NewWorkout/NewWorkout.jsx";
-import EditWorkout from "views/EditWorkout/EditWorkout.jsx";
 
 const dashboardRoutes = [
   {
@@ -37,13 +36,6 @@ const dashboardRoutes = [
     navbarName: "New Workout",
     icon: LibraryBooks,
     component: NewWorkout
-  },
-  {
-    path: "/edit-workout",
-    sidebarName: "Edit Workout",
-    navbarName: "Edit Workout",
-    icon: LibraryBooks,
-    component: EditWorkout
   },
   { redirect: true, path: "/", to: "/dashboard", navbarName: "Redirect" }
 ];
