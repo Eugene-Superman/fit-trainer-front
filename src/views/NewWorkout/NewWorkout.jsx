@@ -2,7 +2,8 @@ import React from "react";
 
 import { connect } from "react-redux";
 import { addWorkout } from "../../redux/actions";
-import { cloneDeep } from "lodash";
+import { cloneDeep, size } from "lodash";
+import { Redirect } from "react-router-dom";
 
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
@@ -14,24 +15,38 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import EditButtons from "components/EditButtons/EditButtons.jsx";
 import SelectItem from "components/Select/Select.jsx";
 
+import { withRouter } from "react-router-dom";
+
 class NewWorkout extends React.Component {
   state = {
+    redirect: false,
     exercises: [],
-    allWorkouts: [],
     workouts: [{ exerciseIndex: "", repeats: "", measurementCount: "" }],
     exercisesName: []
   };
 
   componentDidMount = () => {
-    this.setState({ exercises: this.props.exercises });
-    const names = [];
-    this.props.exercises.map(el => {
-      names.push(el.exerciseName);
-    });
-    this.setState({ exercisesName: names });
-    this.setState({ allWorkouts: this.props.allWorkouts });
-    if(this.props.allWorkouts.length > 0)
-    this.setState({ workouts: cloneDeep(this.props.allWorkouts) });
+    const { allWorkouts, exercises } = this.props;
+    if (!this.props.location.state) {
+      this.setState({ redirect: true });
+    } else {
+      this.setState({ exercises: exercises });
+      const names = [];
+      exercises.map(el => {
+        names.push(el.exerciseName);
+      });
+      this.setState({ exercisesName: names });
+      if (
+        size(allWorkouts) > 0 &&
+        allWorkouts[this.props.location.state.calendarDate]
+      ) {
+        this.setState({
+          workouts: cloneDeep(
+            allWorkouts[this.props.location.state.calendarDate]
+          )
+        });
+      }
+    }
   };
 
   handleSelect = index => value => {
@@ -51,7 +66,7 @@ class NewWorkout extends React.Component {
   };
 
   addExercise = () => {
-    const workoutLength = this.state.workouts.length-1;
+    const workoutLength = this.state.workouts.length - 1;
     const workouts = this.state.workouts[workoutLength];
     const areIntputsFilled =
       (workouts.exerciseIndex || 0 === workouts.exerciseIndex) &&
@@ -98,21 +113,24 @@ class NewWorkout extends React.Component {
   };
 
   createWorkout = () => {
-    const workoutLength = this.state.workouts.length-1;
-    console.log('workoutLength', workoutLength)
+    const workoutLength = this.state.workouts.length - 1;
     const workouts = this.state.workouts[workoutLength];
-    if((workouts.exerciseIndex || 0 === workouts.exerciseIndex) &&
+    if (
+      (workouts.exerciseIndex || 0 === workouts.exerciseIndex) &&
       workouts.repeats &&
-      workouts.measurementCount) {
-        this.props.addWorkout(this.state.workouts);
-      }
-  }
+      workouts.measurementCount
+    ) {
+      this.props.addWorkout({
+        [this.props.location.state.calendarDate]: this.state.workouts
+      });
+    }
+  };
 
   render() {
     const { workouts, exercises, exercisesName } = this.state;
-console.log('this.props.allWorkouts', this.props.allWorkouts)
     return (
       <div>
+        {this.state.redirect ? <Redirect to="/target" /> : null}
         <Card>
           <CardHeader color="primary">
             <h4>New workout</h4>
@@ -130,7 +148,11 @@ console.log('this.props.allWorkouts', this.props.allWorkouts)
                       updateData={this.handleSelect(index)}
                       selectHeader="Exercise name"
                       arrayForSelect={exercisesName}
-                      selectFor={exercises[element.exerciseIndex]? exercises[element.exerciseIndex].exerciseName: ""}         
+                      selectFor={
+                        exercises[element.exerciseIndex]
+                          ? exercises[element.exerciseIndex].exerciseName
+                          : ""
+                      }
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={3}>
@@ -172,7 +194,10 @@ console.log('this.props.allWorkouts', this.props.allWorkouts)
                 </GridContainer>
               );
             })}
-            <ButtonComponent onClick={this.createWorkout} buttonLabel="create workout" />
+            <ButtonComponent
+              onClick={this.createWorkout}
+              buttonLabel="create workout"
+            />
           </CardBody>
         </Card>
       </div>
@@ -192,4 +217,4 @@ const mapDispatchToProps = {
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(NewWorkout);
+)(withRouter(NewWorkout));

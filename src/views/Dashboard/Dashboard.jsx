@@ -1,30 +1,41 @@
 import React from "react";
 
-import { cloneDeep } from "lodash";
+import { connect } from "react-redux";
+
 import ButtonComponent from "components/Button/Button.jsx";
 import InfiniteCalendar, {
   Calendar,
   defaultMultipleDateInterpolation,
   withMultipleDates
 } from "react-infinite-calendar";
-
 import "react-infinite-calendar/styles.css";
+import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 
-export default class Dashboard extends React.Component {
+class Dashboard extends React.Component {
+  static propTypes = {
+    match: PropTypes.object.isRequired,
+    location: PropTypes.object.isRequired,
+    history: PropTypes.object.isRequired
+  };
+
   state = { selectedDays: [] };
+
+  componentDidMount = () => {
+    this.setState({
+      selectedDays: this.props.trainingDays.map(element => +element)
+    });
+  };
 
   selectDay = element => {
     const clickedDate = Date.parse(element);
-    const elementToChange = cloneDeep(this.state.selectedDays);
-    if (!elementToChange.includes(clickedDate)) {
-      elementToChange.push(clickedDate);
-      this.setState({ selectedDays: elementToChange });
-    }
+    this.props.history.push("/new-workout/" + clickedDate, {
+      calendarDate: clickedDate
+    });
   };
 
   render() {
     const { selectedDays } = this.state;
-    console.log("selectedDays", selectedDays);
     return (
       <div>
         <ButtonComponent buttonLabel="add new exercise" />
@@ -39,3 +50,9 @@ export default class Dashboard extends React.Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  trainingDays: Object.keys(state.allWorkouts)
+});
+
+export default connect(mapStateToProps)(withRouter(Dashboard));

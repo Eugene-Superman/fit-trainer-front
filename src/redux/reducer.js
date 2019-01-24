@@ -2,7 +2,7 @@ import { ADD_EXERCISE, ADD_WORKOUT, EDIT_EXERCISES } from "./actionTypes";
 
 const initialState = {
   allExercises: [],
-  allWorkouts: []
+  allWorkouts: {}
 };
 
 const initialExercise = {
@@ -33,11 +33,14 @@ export const rootReducer = (state = initialState, action) => {
       return {
         ...state,
         allExercises: action.payload
-      } ;
+      };
     case ADD_WORKOUT:
       return {
         ...state,
-        allWorkouts: action.payload
+        allWorkouts: {
+          ...state.allWorkouts,
+          [Object.keys(action.payload)]: action.payload[Object.keys(action.payload)]
+        }
       };
     default:
       return state;
