@@ -10,7 +10,7 @@ import InfiniteCalendar, {
 } from "react-infinite-calendar";
 import "react-infinite-calendar/styles.css";
 import PropTypes from "prop-types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 
 class Dashboard extends React.Component {
   static propTypes = {
@@ -38,8 +38,9 @@ class Dashboard extends React.Component {
     const { selectedDays } = this.state;
     return (
       <div>
-        <ButtonComponent buttonLabel="add new exercise" />
-        <ButtonComponent buttonLabel="add new workout" />
+        <Link to="/new-exercise">
+          <ButtonComponent buttonLabel="add new exercise" />
+        </Link>
         <InfiniteCalendar
           Component={withMultipleDates(Calendar)}
           interpolateSelection={defaultMultipleDateInterpolation}

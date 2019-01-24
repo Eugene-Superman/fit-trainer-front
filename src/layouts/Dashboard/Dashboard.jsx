@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React from "react";
+import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { Switch, Route, Redirect } from "react-router-dom";
 // creates a beautiful scrollbar
@@ -12,31 +13,30 @@ import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Sidebar from "components/Sidebar/Sidebar.jsx";
 
-import dashboardRoutes from "routes/dashboard.jsx";
+import { dashboardRoutes, authorizationRoutes } from "routes/dashboard.jsx";
 
 import dashboardStyle from "assets/jss/material-dashboard-react/layouts/dashboardStyle.jsx";
 
 import image from "assets/img/sidebar-2.jpg";
 import logo from "assets/img/reactlogo.png";
 
-const switchRoutes = (
-  <Switch>
-    {dashboardRoutes.map((prop, key) => {
-      if (prop.redirect)
-        return <Redirect from={prop.path} to={prop.to} key={key} />;
-      return <Route path={prop.path} component={prop.component} key={key} />;
-    })}
-  </Switch>
-);
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileOpen: false
+      mobileOpen: false,
     };
     this.resizeFunction = this.resizeFunction.bind(this);
   }
+  switchRoutes = (router) => (
+    <Switch>
+      {router.map((prop, key) => {
+        if (prop.redirect)
+          return <Redirect from={prop.path} to={prop.to} key={key} />;
+        return <Route path={prop.path} component={prop.component} key={key} />;
+      })}
+    </Switch>
+  );
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
@@ -67,10 +67,11 @@ class App extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
+    const selectedRouter  = this.props.loginedUser ? dashboardRoutes: authorizationRoutes;
     return (
       <div className={classes.wrapper}>
         <Sidebar
-          routes={dashboardRoutes}
+          routes={selectedRouter}
           logoText={"Fit Trainer"}
           logo={logo}
           image={image}
@@ -81,17 +82,17 @@ class App extends React.Component {
         />
         <div className={classes.mainPanel} ref="mainPanel">
           <Header
-            routes={dashboardRoutes}
+            routes={selectedRouter}
             handleDrawerToggle={this.handleDrawerToggle}
             {...rest}
           />
           {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
-              <div className={classes.container}>{switchRoutes}</div>
+              <div className={classes.container}>{this.switchRoutes(selectedRouter)}</div>
             </div>
           ) : (
-            <div className={classes.map}>{switchRoutes}</div>
+            <div className={classes.map}>{this.switchRoutes(selectedRouter)}</div>
           )}
           {this.getRoute() ? <Footer /> : null}
         </div>
@@ -104,4 +105,10 @@ App.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(dashboardStyle)(App);
+const mapStateToProps = state => ({
+  loginedUser: state.loginedUser
+});
+
+export default connect(
+  mapStateToProps
+)(withStyles(dashboardStyle)(App));
