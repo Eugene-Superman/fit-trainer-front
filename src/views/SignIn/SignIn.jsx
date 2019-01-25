@@ -37,9 +37,11 @@ class SignIn extends React.Component {
             <Card>
               <CardHeader color="primary">
                 <h4>Sign into Fit Trainer App</h4>
-                <p>Please, enter your email and password</p>
+                <p>Please, enter your email and password.</p>
               </CardHeader>
               <CardBody>
+              <p>Login: admin</p>
+              <p>Password: 1111</p>
                 <CustomInput
                   onChange={this.changedInput}
                   labelText="Email address"
