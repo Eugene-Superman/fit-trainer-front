@@ -15,18 +15,42 @@ import SubmitNotification from "components/SubmitNotification/SubmitNotification
 import { WEIGHT_MEASUREMENTS } from "constants/constants";
 
 class NewExercise extends React.Component {
-  state = { exerciseName: "", measurementType: "" };
+  state = { exerciseId: null, exerciseName: "", measurementType: "" };
+  
+  componentDidMount = () => {
+    this.setState({ exerciseId: this.giveId() });     
+  };
 
   setExerciseName = event => {
     this.setState({ exerciseName: event.target.value });
   };
 
   handleSelect = value => {
-    this.setState({ measurementType: WEIGHT_MEASUREMENTS[value] });
+    this.setState({ measurementType: value });
+  };
+
+  giveId = () => {
+    const { exercises } = this.props;
+    const { exerciseId } = this.state;
+    let newId = null;
+    if (exercises.length === 0 && !exerciseId) {
+      newId = 1;
+    } else if (exerciseId) {
+      newId = exerciseId + 1;
+    } else if (exercises.length > 0 && !exerciseId) {
+      newId = exercises.reduce(
+        (acc, element) =>
+          (acc = acc > element.exerciseId ? acc : element.exerciseId),
+        0
+      );
+      newId = newId + 1;
+    }
+    return newId;
   };
 
   submitExercise = () => {
     if (this.state.exerciseName && this.state.measurementType) {
+      this.setState({exerciseId: this.giveId()})
       this.props.addExercise(this.state);
     }
   };
@@ -56,7 +80,7 @@ class NewExercise extends React.Component {
                   updateData={this.handleSelect}
                 />
                 <ButtonComponent
-                  onClick={this.submitExercise}
+                  onClick={() => this.submitExercise()}
                   buttonLabel="create exercise"
                 />
               </CardBody>
@@ -68,11 +92,15 @@ class NewExercise extends React.Component {
   }
 }
 
+const mapStateToProps = state => ({
+  exercises: state.allExercises
+});
+
 const mapDispatchToProps = {
   addExercise
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(NewExercise);

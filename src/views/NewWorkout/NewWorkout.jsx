@@ -21,8 +21,8 @@ class NewWorkout extends React.Component {
   state = {
     redirect: false,
     exercises: [],
-    workouts: [{ exerciseIndex: "", repeats: "", measurementCount: "" }],
-    exercisesName: []
+    workouts: [{ exerciseId: "", repeats: "", measurementCount: "" }],
+    exercisesIds: []
   };
 
   componentDidMount = () => {
@@ -30,12 +30,11 @@ class NewWorkout extends React.Component {
     if (!this.props.location.state) {
       this.setState({ redirect: true });
     } else {
-      this.setState({ exercises: exercises });
-      const names = [];
+      const ids = [];
       exercises.map(el => {
-        names.push(el.exerciseName);
+        ids.push(el.exerciseId);
       });
-      this.setState({ exercisesName: names });
+      this.setState({ exercisesIds: ids, exercises: exercises });
       if (
         size(allWorkouts) > 0 &&
         allWorkouts[this.props.location.state.calendarDate]
@@ -51,7 +50,7 @@ class NewWorkout extends React.Component {
 
   handleSelect = index => value => {
     const elementToChange = cloneDeep(this.state.workouts);
-    elementToChange[index].exerciseIndex = value;
+    elementToChange[index].exerciseId = value;
     this.setState({ workouts: elementToChange });
   };
 
@@ -69,12 +68,10 @@ class NewWorkout extends React.Component {
     const workoutLength = this.state.workouts.length - 1;
     const workouts = this.state.workouts[workoutLength];
     const areIntputsFilled =
-      (workouts.exerciseIndex || 0 === workouts.exerciseIndex) &&
-      workouts.repeats &&
-      workouts.measurementCount;
+      workouts.exerciseId && workouts.repeats && workouts.measurementCount;
     if (areIntputsFilled) {
       const singleWorkout = {
-        exerciseIndex: "",
+        exerciseId: "",
         repeats: "",
         measurementCount: ""
       };
@@ -116,7 +113,7 @@ class NewWorkout extends React.Component {
     const workoutLength = this.state.workouts.length - 1;
     const workouts = this.state.workouts[workoutLength];
     if (
-      (workouts.exerciseIndex || 0 === workouts.exerciseIndex) &&
+      (workouts.exerciseId || 0 === workouts.exerciseId) &&
       workouts.repeats &&
       workouts.measurementCount
     ) {
@@ -127,7 +124,7 @@ class NewWorkout extends React.Component {
   };
 
   render() {
-    const { workouts, exercises, exercisesName } = this.state;
+    const { workouts, exercises, exercisesIds } = this.state;
     return (
       <div>
         {this.state.redirect ? <Redirect to="/target" /> : null}
@@ -141,18 +138,21 @@ class NewWorkout extends React.Component {
               onClick={this.addExercise}
             />
             {workouts.map((element, index) => {
+              let exerciseIndex = exercises.findIndex(
+                exerciseElement =>
+                  exerciseElement.exerciseId === element.exerciseId
+              );
+              if(exercises[exerciseIndex])
               return (
                 <GridContainer key={index}>
                   <GridItem xs={12} sm={12} md={3}>
                     <SelectItem
+                      classes={{root: 'sad'}}
+                      selectForWorkout
                       updateData={this.handleSelect(index)}
                       selectHeader="Exercise name"
-                      arrayForSelect={exercisesName}
-                      selectFor={
-                        exercises[element.exerciseIndex]
-                          ? exercises[element.exerciseIndex].exerciseName
-                          : ""
-                      }
+                      arrayForSelect={exercises}
+                      selectFor={exercises[exerciseIndex]? exercises[exerciseIndex].exerciseName: ""}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={3}>
@@ -180,8 +180,8 @@ class NewWorkout extends React.Component {
                         fullWidth: true
                       }}
                     />
-                    {exercises[element.exerciseIndex]
-                      ? exercises[element.exerciseIndex].measurementType
+                    {exercises[exerciseIndex]
+                      ? exercises[exerciseIndex].measurementType
                       : ""}
                   </GridItem>
                   <GridItem xs={12} sm={12} md={3}>

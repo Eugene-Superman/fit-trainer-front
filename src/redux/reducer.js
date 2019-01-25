@@ -10,6 +10,7 @@ const initialState = {
 };
 
 const initialExercise = {
+  exerciseId: null,
   exerciseName: "",
   measurementType: ""
 };

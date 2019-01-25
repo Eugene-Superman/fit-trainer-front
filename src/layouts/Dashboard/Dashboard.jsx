@@ -67,7 +67,8 @@ class App extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    const selectedRouter  = this.props.loginedUser ? dashboardRoutes: authorizationRoutes;
+    //const selectedRouter  = this.props.loginedUser ? dashboardRoutes: authorizationRoutes;
+    const selectedRouter  = dashboardRoutes;
     return (
       <div className={classes.wrapper}>
         <Sidebar

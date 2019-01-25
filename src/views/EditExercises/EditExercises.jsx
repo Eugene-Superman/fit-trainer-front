@@ -38,7 +38,7 @@ class EditExercises extends React.Component {
   /*INPUTS*/
   selectUpdate = index => val => {
     const elementToChange = cloneDeep(this.state.changeableExercises);
-    elementToChange[index].measurementType = WEIGHT_MEASUREMENTS[val];
+    elementToChange[index].measurementType = val;
     this.setState({ changeableExercises: elementToChange });
   };
 
