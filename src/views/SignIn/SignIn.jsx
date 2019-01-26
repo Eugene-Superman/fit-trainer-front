@@ -21,7 +21,7 @@ class SignIn extends React.Component {
   }
 
   submitSignIn= userData => {
-    this.props.users.map((element) => {
+    this.props.users.forEach((element) => {
       if(isEqual(element, userData)) {
         this.props.setUser(userData.userEmail)
       }

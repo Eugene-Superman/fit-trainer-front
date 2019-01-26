@@ -38,7 +38,7 @@ class EditExercises extends React.Component {
   /*INPUTS*/
   selectUpdate = index => val => {
     const elementToChange = cloneDeep(this.state.changeableExercises);
-    elementToChange[index].measurementType = val;
+    elementToChange[index].measurementType = WEIGHT_MEASUREMENTS[val];
     this.setState({ changeableExercises: elementToChange });
   };
 
@@ -82,7 +82,7 @@ class EditExercises extends React.Component {
 
   render() {
     const { classes } = this.props;
-    const changedElements = this.state.changeableExercises;
+    const { changeableExercises } = this.state;
 
     return (
       <div>
@@ -91,7 +91,7 @@ class EditExercises extends React.Component {
             <h4>Edit exercises</h4>
           </CardHeader>
           <CardBody>
-            {changedElements.map((element, index) => {
+            {changeableExercises.map((element, index) => {
               return (
                 <div key={index} className={classes.divContainer}>
                   <GridContainer>
@@ -111,7 +111,8 @@ class EditExercises extends React.Component {
                         updateData={this.selectUpdate(index)}
                         selectHeader="Measurement type"
                         arrayForSelect={WEIGHT_MEASUREMENTS}
-                        selectFor={element.measurementType}
+                        selectFor="measure"
+                        selectedItem={element.measurementType}
                       />
                     </GridItem>
                     <GridItem xs={12} sm={12} md={3}>
@@ -127,7 +128,7 @@ class EditExercises extends React.Component {
             })}
             <ButtonComponent
               buttonLabel="update exercises"
-              onClick={() => this.props.editExercises(changedElements)}
+              onClick={() => this.props.editExercises(changeableExercises)}
             />
           </CardBody>
         </Card>

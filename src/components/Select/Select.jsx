@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
+import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
@@ -12,7 +13,7 @@ const styles = theme => ({
   },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 320
+    minWidth: 120
   },
   selectEmpty: {
     marginTop: theme.spacing.unit * 2
@@ -20,56 +21,51 @@ const styles = theme => ({
 });
 
 class SimpleSelect extends React.Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired
-  };
-
-  state = { selectName: "" };
+  state = { selectedIndex: "" };
 
   handleChange = event => {
-    const result = this.props.selectForWorkout ? event.target.value.exerciseId: event.target.value;
-    const selectedItem = this.props.selectForWorkout ? event.target.value.exerciseName:  event.target.value;
-    this.setState({ [event.target.name]: selectedItem });
+    const result = event.target.value;
+    this.setState({ selectedIndex: result });
     this.props.updateData(result);
   };
 
-  displayItems = arrayForSelect =>
-    arrayForSelect.map((element, index) => (
-      <MenuItem key={index} value={element}>
-        {element}
-      </MenuItem>
-    ));
-
-  displayForWorkout = exercises =>
-    exercises.map((element, index) => (
-      <MenuItem key={index} value={element}>
-        {element.exerciseName}
-      </MenuItem>
-    ));
-
   render() {
-    const { classes, selectFor, arrayForSelect, selectForWorkout } = this.props;
-    const { selectName } = this.state;
+    const { classes, selectFor, arrayForSelect, selectedItem } = this.props;
+
+    const { selectedIndex } = this.state;
 
     return (
       <form className={classes.root} autoComplete="off">
         <FormControl className={classes.formControl}>
+          <InputLabel htmlFor={selectFor + "-select"}>{selectFor}</InputLabel>
           <Select
-            value={selectFor ? selectFor : selectName}
+            value={
+              typeof selectedItem === "string"
+                ? arrayForSelect.indexOf(selectedItem)
+                : typeof selectedItem === "number"
+                ? selectedItem
+                : selectedIndex
+            }
             onChange={this.handleChange}
             inputProps={{
-              name: 'selectName',
-              id: 'select-simple',
+              name: selectFor,
+              id: "select-for" + selectFor
             }}
           >
-            {selectForWorkout
-              ? this.displayForWorkout(arrayForSelect)
-              : this.displayItems(arrayForSelect)}
+            {arrayForSelect.map((element, index) => (
+              <MenuItem key={index} value={index}>
+                {typeof element === "object" ? element.exerciseName : element}
+              </MenuItem>
+            ))}
           </Select>
         </FormControl>
       </form>
     );
   }
 }
+
+SimpleSelect.propTypes = {
+  classes: PropTypes.object.isRequired
+};
 
 export default withStyles(styles)(SimpleSelect);

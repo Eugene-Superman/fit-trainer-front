@@ -26,7 +26,7 @@ class NewExercise extends React.Component {
   };
 
   handleSelect = value => {
-    this.setState({ measurementType: value });
+    this.setState({ measurementType: WEIGHT_MEASUREMENTS[value] });
   };
 
   giveId = () => {
@@ -78,6 +78,7 @@ class NewExercise extends React.Component {
                   selectHeader="Measurement type"
                   arrayForSelect={WEIGHT_MEASUREMENTS}
                   updateData={this.handleSelect}
+                  selectFor="measure"
                 />
                 <ButtonComponent
                   onClick={() => this.submitExercise()}

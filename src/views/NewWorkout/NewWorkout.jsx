@@ -21,20 +21,15 @@ class NewWorkout extends React.Component {
   state = {
     redirect: false,
     exercises: [],
-    workouts: [{ exerciseId: "", repeats: "", measurementCount: "" }],
-    exercisesIds: []
+    workouts: [{ exerciseId: null, repeats: "", measurementCount: "" }],
   };
 
   componentDidMount = () => {
-    const { allWorkouts, exercises } = this.props;
+    const { allWorkouts } = this.props;
     if (!this.props.location.state) {
       this.setState({ redirect: true });
     } else {
-      const ids = [];
-      exercises.map(el => {
-        ids.push(el.exerciseId);
-      });
-      this.setState({ exercisesIds: ids, exercises: exercises });
+      this.setState({ exercises: this.props.exercises });
       if (
         size(allWorkouts) > 0 &&
         allWorkouts[this.props.location.state.calendarDate]
@@ -50,7 +45,7 @@ class NewWorkout extends React.Component {
 
   handleSelect = index => value => {
     const elementToChange = cloneDeep(this.state.workouts);
-    elementToChange[index].exerciseId = value;
+    elementToChange[index].exerciseId = this.state.exercises[value].exerciseId;
     this.setState({ workouts: elementToChange });
   };
 
@@ -124,7 +119,7 @@ class NewWorkout extends React.Component {
   };
 
   render() {
-    const { workouts, exercises, exercisesIds } = this.state;
+    const { workouts, exercises } = this.state;
     return (
       <div>
         {this.state.redirect ? <Redirect to="/target" /> : null}
@@ -142,17 +137,15 @@ class NewWorkout extends React.Component {
                 exerciseElement =>
                   exerciseElement.exerciseId === element.exerciseId
               );
-              if(exercises[exerciseIndex])
               return (
                 <GridContainer key={index}>
                   <GridItem xs={12} sm={12} md={3}>
                     <SelectItem
-                      classes={{root: 'sad'}}
                       selectForWorkout
                       updateData={this.handleSelect(index)}
-                      selectHeader="Exercise name"
                       arrayForSelect={exercises}
-                      selectFor={exercises[exerciseIndex]? exercises[exerciseIndex].exerciseName: ""}
+                      selectFor="workout"
+                      selectedItem={exerciseIndex}
                     />
                   </GridItem>
                   <GridItem xs={12} sm={12} md={3}>
