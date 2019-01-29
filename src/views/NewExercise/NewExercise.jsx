@@ -1,7 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import { addExercise } from "../../redux/actions";
+import { addExercise } from "redux/actions";
 
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -9,16 +9,24 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import SelectItem from "../../components/Select/Select.jsx";
-import ButtonComponent from "../../components/Button/Button.jsx";
-import SubmitNotification from "components/SubmitNotification/SubmitNotification";
+import SelectItem from "components/Select/Select.jsx";
+import ButtonComponent from "components/Button/Button.jsx";
+
 import { WEIGHT_MEASUREMENTS } from "constants/constants";
+
+const mapStateToProps = state => ({
+  exercises: state.allExercises
+});
+
+const mapDispatchToProps = {
+  addExercise
+};
 
 class NewExercise extends React.Component {
   state = { exerciseId: null, exerciseName: "", measurementType: "" };
-  
+
   componentDidMount = () => {
-    this.setState({ exerciseId: this.giveId() });     
+    this.setState({ exerciseId: this.giveId() });
   };
 
   setExerciseName = event => {
@@ -50,7 +58,7 @@ class NewExercise extends React.Component {
 
   submitExercise = () => {
     if (this.state.exerciseName && this.state.measurementType) {
-      this.setState({exerciseId: this.giveId()})
+      this.setState({ exerciseId: this.giveId() });
       this.props.addExercise(this.state);
     }
   };
@@ -92,14 +100,6 @@ class NewExercise extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  exercises: state.allExercises
-});
-
-const mapDispatchToProps = {
-  addExercise
-};
 
 export default connect(
   mapStateToProps,

@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { withRouter, Link } from "react-router-dom";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import ListItem from "@material-ui/core/ListItem";
@@ -15,24 +16,13 @@ function Footer({ ...props }) {
         <div className={classes.left}>
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
-              <a href="#home" className={classes.block}>
-                Home
-              </a>
+              <Link to="/dashboard">Dashboard</Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#company" className={classes.block}>
-                Company
-              </a>
+              <Link to="/new-exercise">New Exercise</Link>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
-              <a href="#portfolio" className={classes.block}>
-                Portfolio
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a href="#blog" className={classes.block}>
-                Blog
-              </a>
+              <Link to="/edit-exercises">Edit Exercises</Link>
             </ListItem>
           </List>
         </div>
@@ -41,7 +31,8 @@ function Footer({ ...props }) {
             &copy; {1900 + new Date().getYear()}{" "}
             <a href="https://github.com/Eugene-Superman/" className={classes.a}>
               Eugene-Superman
-            </a>, made with love for a better web
+            </a>
+            , made with love for a better web
           </span>
         </p>
       </div>

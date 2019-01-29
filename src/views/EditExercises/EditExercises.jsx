@@ -1,9 +1,10 @@
 import React from "react";
+
 import { connect } from "react-redux";
 import { editExercises } from "redux/actions";
-import PropTypes from "prop-types";
-import { withStyles } from "@material-ui/core/styles";
 import { cloneDeep } from "lodash";
+
+import { withStyles } from "@material-ui/core/styles";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
@@ -24,11 +25,15 @@ const styles = {
   }
 };
 
-class EditExercises extends React.Component {
-  static propTypes = {
-    classes: PropTypes.object.isRequired
-  };
+const mapStateToProps = state => ({
+  exercises: state.allExercises
+});
 
+const mapDispatchToProps = {
+  editExercises
+};
+
+class EditExercises extends React.Component {
   state = { changeableExercises: [] };
 
   componentDidMount = () => {
@@ -136,14 +141,6 @@ class EditExercises extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  exercises: state.allExercises
-});
-
-const mapDispatchToProps = {
-  editExercises
-};
 
 export default connect(
   mapStateToProps,

@@ -1,11 +1,15 @@
-import { ADD_EXERCISE, ADD_WORKOUT, EDIT_EXERCISES, SET_USER, ADD_USER } from "./actionTypes";
+import {
+  ADD_EXERCISE,
+  ADD_WORKOUT,
+  EDIT_EXERCISES,
+  SET_USER,
+  ADD_USER
+} from "./actionTypes";
 
 const initialState = {
   allExercises: [],
   allWorkouts: {},
-  allUsers: [
-    {userEmail: 'admin', userPassword: '1111'},
-  ],
+  allUsers: [{ userEmail: "admin", userPassword: "1111" }],
   loginedUser: null
 };
 
@@ -15,13 +19,6 @@ const initialExercise = {
   measurementType: ""
 };
 
-/*
-const initialWorkout = {
-  exerciseIndex: '',
-  repeats: '',
-  measurementCount: ''
-};
-*/
 export const rootReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_USER:
@@ -50,7 +47,9 @@ export const rootReducer = (state = initialState, action) => {
         ...state,
         allWorkouts: {
           ...state.allWorkouts,
-          [Object.keys(action.payload)]: action.payload[Object.keys(action.payload)]
+          [Object.keys(action.payload)]: action.payload[
+            Object.keys(action.payload)
+          ]
         }
       };
     default:

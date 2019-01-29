@@ -2,8 +2,8 @@ import React from "react";
 
 import { connect } from "react-redux";
 import { setUser } from "../../redux/actions";
-import { Link } from 'react-router-dom'
-import {isEqual} from "lodash";
+import { Link } from "react-router-dom";
+import { isEqual } from "lodash";
 
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -11,25 +11,33 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import ButtonComponent from "../../components/Button/Button.jsx";
+import ButtonComponent from "components/Button/Button.jsx";
+
+const mapStateToProps = state => ({
+  users: state.allUsers
+});
+
+const mapDispatchToProps = {
+  setUser
+};
 
 class SignIn extends React.Component {
-  state = {userEmail: '', userPassword: ''};
-  
-  changedInput = event => {
-    this.setState({[event.target.id]: event.target.value})
-  }
+  state = { userEmail: "", userPassword: "" };
 
-  submitSignIn= userData => {
-    this.props.users.forEach((element) => {
-      if(isEqual(element, userData)) {
-        this.props.setUser(userData.userEmail)
+  changedInput = event => {
+    this.setState({ [event.target.id]: event.target.value });
+  };
+
+  submitSignIn = userData => {
+    this.props.users.forEach(element => {
+      if (isEqual(element, userData)) {
+        this.props.setUser(userData.userEmail);
       }
-    })
-  }
+    });
+  };
 
   render() {
-    const {userEmail, userPassword} = this.state
+    const { userEmail, userPassword } = this.state;
     return (
       <div>
         <GridContainer>
@@ -40,8 +48,11 @@ class SignIn extends React.Component {
                 <p>Please, enter your email and password.</p>
               </CardHeader>
               <CardBody>
-              <p>Login: admin</p>
-              <p>Password: 1111</p>
+                <p>
+                  Temporary user: <br />
+                  Login: admin
+                  <br /> Password: 1111
+                </p>
                 <CustomInput
                   onChange={this.changedInput}
                   labelText="Email address"
@@ -60,10 +71,12 @@ class SignIn extends React.Component {
                   }}
                 />
                 <ButtonComponent
-                  onClick={() => this.submitSignIn({userEmail, userPassword})}
+                  onClick={() => this.submitSignIn({ userEmail, userPassword })}
                   buttonLabel="sign in"
                 />
-                <p><Link to="/sign-up">first time user? sign-up</Link></p>
+                <p>
+                  <Link to="/sign-up">first time user? sign-up</Link>
+                </p>
               </CardBody>
             </Card>
           </GridItem>
@@ -72,14 +85,6 @@ class SignIn extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  users: state.allUsers
-});
-
-const mapDispatchToProps = {
-  setUser
-};
 
 export default connect(
   mapStateToProps,

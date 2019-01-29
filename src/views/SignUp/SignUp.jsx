@@ -11,7 +11,15 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
 import CardBody from "components/Card/CardBody.jsx";
-import ButtonComponent from "../../components/Button/Button.jsx";
+import ButtonComponent from "components/Button/Button.jsx";
+
+const mapStateToProps = state => ({
+  users: state.allUsers
+});
+
+const mapDispatchToProps = {
+  setUser
+};
 
 class SignUp extends React.Component {
   state = { isVerificationSent: false };
@@ -62,7 +70,7 @@ class SignUp extends React.Component {
           <Link to="/sign-in">already have an account? sign-in</Link>
         </p>
       </CardBody>
-      </div>
+    </div>
   );
 
   displayConfirmatioForm = () => (
@@ -88,7 +96,10 @@ class SignUp extends React.Component {
             fullWidth: true
           }}
         />
-        <ButtonComponent onClick={this.submitSignUp} buttonLabel="verify email" />
+        <ButtonComponent
+          onClick={this.submitSignUp}
+          buttonLabel="verify email"
+        />
         <p>
           <Link to="/sign-in">already have an account? sign-in</Link>
         </p>
@@ -103,7 +114,9 @@ class SignUp extends React.Component {
         <GridContainer>
           <GridItem xs={12} sm={12} md={8}>
             <Card>
-              {isVerificationSent ? this.displayConfirmatioForm() : this.displayRegistrationForm()}
+              {isVerificationSent
+                ? this.displayConfirmatioForm()
+                : this.displayRegistrationForm()}
             </Card>
           </GridItem>
         </GridContainer>
@@ -111,14 +124,6 @@ class SignUp extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  users: state.allUsers
-});
-
-const mapDispatchToProps = {
-  setUser
-};
 
 export default connect(
   mapStateToProps,

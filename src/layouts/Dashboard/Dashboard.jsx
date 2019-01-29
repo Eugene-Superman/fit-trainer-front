@@ -24,11 +24,11 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      mobileOpen: false,
+      mobileOpen: false
     };
     this.resizeFunction = this.resizeFunction.bind(this);
   }
-  switchRoutes = (router) => (
+  switchRoutes = router => (
     <Switch>
       {router.map((prop, key) => {
         if (prop.redirect)
@@ -67,7 +67,9 @@ class App extends React.Component {
   }
   render() {
     const { classes, ...rest } = this.props;
-    const selectedRouter  = this.props.loginedUser ? dashboardRoutes: authorizationRoutes;
+    const selectedRouter = this.props.loginedUser
+      ? dashboardRoutes
+      : authorizationRoutes;
 
     return (
       <div className={classes.wrapper}>
@@ -90,10 +92,14 @@ class App extends React.Component {
           {/* On the /maps route we want the map to be on full screen - this is not possible if the content and conatiner classes are present because they have some paddings which would make the map smaller */}
           {this.getRoute() ? (
             <div className={classes.content}>
-              <div className={classes.container}>{this.switchRoutes(selectedRouter)}</div>
+              <div className={classes.container}>
+                {this.switchRoutes(selectedRouter)}
+              </div>
             </div>
           ) : (
-            <div className={classes.map}>{this.switchRoutes(selectedRouter)}</div>
+            <div className={classes.map}>
+              {this.switchRoutes(selectedRouter)}
+            </div>
           )}
           {this.getRoute() ? <Footer /> : null}
         </div>
@@ -110,6 +116,4 @@ const mapStateToProps = state => ({
   loginedUser: state.loginedUser
 });
 
-export default connect(
-  mapStateToProps
-)(withStyles(dashboardStyle)(App));
+export default connect(mapStateToProps)(withStyles(dashboardStyle)(App));

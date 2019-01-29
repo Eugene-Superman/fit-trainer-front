@@ -24,7 +24,7 @@ function CustomInput({ ...props }) {
     success,
     onChange,
     inputValue,
-    type,
+    type
   } = props;
 
   const labelClasses = classNames({

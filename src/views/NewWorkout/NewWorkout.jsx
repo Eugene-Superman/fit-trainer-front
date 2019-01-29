@@ -1,9 +1,10 @@
 import React from "react";
 
 import { connect } from "react-redux";
-import { addWorkout } from "../../redux/actions";
+import { addWorkout } from "redux/actions";
 import { cloneDeep, size } from "lodash";
 import { Redirect } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 
 import Card from "components/Card/Card.jsx";
 import CardHeader from "components/Card/CardHeader.jsx";
@@ -15,13 +16,20 @@ import CustomInput from "components/CustomInput/CustomInput.jsx";
 import EditButtons from "components/EditButtons/EditButtons.jsx";
 import SelectItem from "components/Select/Select.jsx";
 
-import { withRouter } from "react-router-dom";
+const mapStateToProps = state => ({
+  exercises: state.allExercises,
+  allWorkouts: state.allWorkouts
+});
+
+const mapDispatchToProps = {
+  addWorkout
+};
 
 class NewWorkout extends React.Component {
   state = {
     redirect: false,
     exercises: [],
-    workouts: [{ exerciseId: null, repeats: "", measurementCount: "" }],
+    workouts: [{ exerciseId: null, repeats: "", measurementCount: "" }]
   };
 
   componentDidMount = () => {
@@ -197,15 +205,6 @@ class NewWorkout extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  exercises: state.allExercises,
-  allWorkouts: state.allWorkouts
-});
-
-const mapDispatchToProps = {
-  addWorkout
-};
 
 export default connect(
   mapStateToProps,

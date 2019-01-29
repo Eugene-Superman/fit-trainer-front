@@ -1,6 +1,7 @@
 import React from "react";
 
 import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
 import ButtonComponent from "components/Button/Button.jsx";
 import InfiniteCalendar, {
@@ -8,17 +9,14 @@ import InfiniteCalendar, {
   defaultMultipleDateInterpolation,
   withMultipleDates
 } from "react-infinite-calendar";
+
 import "react-infinite-calendar/styles.css";
-import PropTypes from "prop-types";
-import { withRouter, Link } from "react-router-dom";
+
+const mapStateToProps = state => ({
+  trainingDays: Object.keys(state.allWorkouts)
+});
 
 class Dashboard extends React.Component {
-  static propTypes = {
-    match: PropTypes.object.isRequired,
-    location: PropTypes.object.isRequired,
-    history: PropTypes.object.isRequired
-  };
-
   state = { selectedDays: [] };
 
   componentDidMount = () => {
@@ -51,9 +49,5 @@ class Dashboard extends React.Component {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  trainingDays: Object.keys(state.allWorkouts)
-});
 
 export default connect(mapStateToProps)(withRouter(Dashboard));

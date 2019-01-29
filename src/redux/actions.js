@@ -1,4 +1,10 @@
-import { ADD_EXERCISE, ADD_WORKOUT, EDIT_EXERCISES, SET_USER, ADD_USER } from "./actionTypes";
+import {
+  ADD_EXERCISE,
+  ADD_WORKOUT,
+  EDIT_EXERCISES,
+  SET_USER,
+  ADD_USER
+} from "./actionTypes";
 
 export const addExercise = exercise => ({
   type: ADD_EXERCISE,
@@ -24,4 +30,3 @@ export const addUser = user => ({
   type: ADD_USER,
   payload: user
 });
-
