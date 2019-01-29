@@ -2,14 +2,13 @@ import {
   ADD_EXERCISE,
   ADD_WORKOUT,
   EDIT_EXERCISES,
-  SET_USER,
-  ADD_USER
+  SET_USER
 } from "./actionTypes";
 
 const initialState = {
   allExercises: [],
   allWorkouts: {},
-  allUsers: [{ userEmail: "admin", userPassword: "1111" }],
+  userInfo: { userEmail: "admin", userPassword: "1111" },
   loginedUser: null
 };
 

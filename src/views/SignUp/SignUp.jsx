@@ -3,7 +3,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { setUser } from "../../redux/actions";
 import { Link } from "react-router-dom";
-import { isEqual } from "lodash";
 
 import GridItem from "components/Grid/GridItem.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
@@ -14,7 +13,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import ButtonComponent from "components/Button/Button.jsx";
 
 const mapStateToProps = state => ({
-  users: state.allUsers
+  users: state.userInfo
 });
 
 const mapDispatchToProps = {

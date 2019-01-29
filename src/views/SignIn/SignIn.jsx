@@ -14,7 +14,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import ButtonComponent from "components/Button/Button.jsx";
 
 const mapStateToProps = state => ({
-  users: state.allUsers
+  user: state.userInfo
 });
 
 const mapDispatchToProps = {
@@ -29,11 +29,9 @@ class SignIn extends React.Component {
   };
 
   submitSignIn = userData => {
-    this.props.users.forEach(element => {
-      if (isEqual(element, userData)) {
-        this.props.setUser(userData.userEmail);
-      }
-    });
+    if (isEqual(this.props.user, userData)) {
+      this.props.setUser(userData.userEmail);
+    }
   };
 
   render() {
