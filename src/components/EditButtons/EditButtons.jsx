@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import ArrowUpwardOutlined from "@material-ui/icons/ArrowUpwardOutlined.js";
 import ArrowDownwardOutlined from "@material-ui/icons/ArrowDownwardOutlined.js";
 import CancelOutlined from "@material-ui/icons/CancelOutlined.js";
@@ -10,21 +11,27 @@ function EditButtons(props) {
     <div>
       <ButtonComponent
         buttonColor="#00abc1"
-        buttonLabel={<ArrowUpwardOutlined />}
+        buttonImage={<ArrowUpwardOutlined />}
         onClick={buttonUp}
       />
       <ButtonComponent
         buttonColor="#00abc1"
-        buttonLabel={<ArrowDownwardOutlined />}
+        buttonImage={<ArrowDownwardOutlined />}
         onClick={buttonDown}
       />
       <ButtonComponent
         buttonColor="#ff9900"
-        buttonLabel={<CancelOutlined />}
+        buttonImage={<CancelOutlined />}
         onClick={removeExercise}
       />
     </div>
   );
 }
+
+EditButtons.propTypes = {
+  buttonUp: PropTypes.func,
+  buttonDown: PropTypes.func,
+  removeExercise: PropTypes.func
+};
 
 export default EditButtons;

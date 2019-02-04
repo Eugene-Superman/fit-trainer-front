@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { setUser } from "../../redux/actions";
@@ -13,7 +14,7 @@ import CardBody from "components/Card/CardBody.jsx";
 import ButtonComponent from "components/Button/Button.jsx";
 
 const mapStateToProps = state => ({
-  users: state.userInfo
+  userInfo: state.userInfo
 });
 
 const mapDispatchToProps = {
@@ -123,6 +124,11 @@ class SignUp extends React.Component {
     );
   }
 }
+
+SignUp.propTypes = {
+  userInfo: PropTypes.object,
+  setUser: PropTypes.func
+};
 
 export default connect(
   mapStateToProps,

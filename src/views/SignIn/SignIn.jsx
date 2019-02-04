@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { setUser } from "../../redux/actions";
@@ -83,6 +84,11 @@ class SignIn extends React.Component {
     );
   }
 }
+
+SignIn.propTypes = {
+  user: PropTypes.object,
+  setUser: PropTypes.func
+};
 
 export default connect(
   mapStateToProps,

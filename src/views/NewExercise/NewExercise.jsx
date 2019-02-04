@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { addExercise } from "redux/actions";
@@ -100,6 +101,11 @@ class NewExercise extends React.Component {
     );
   }
 }
+
+NewExercise.propTypes = {
+  exercises: PropTypes.arrayOf(PropTypes.object),
+  addExercise: PropTypes.func
+};
 
 export default connect(
   mapStateToProps,

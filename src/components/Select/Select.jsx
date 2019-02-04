@@ -31,7 +31,6 @@ class SimpleSelect extends React.Component {
 
   render() {
     const { classes, selectFor, arrayForSelect, selectedItem } = this.props;
-
     const { selectedIndex } = this.state;
 
     return (
@@ -65,7 +64,11 @@ class SimpleSelect extends React.Component {
 }
 
 SimpleSelect.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  selectFor: PropTypes.string,
+  arrayForSelect: PropTypes.array,
+  selectedItem: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  updateData: PropTypes.func
 };
 
 export default withStyles(styles)(SimpleSelect);

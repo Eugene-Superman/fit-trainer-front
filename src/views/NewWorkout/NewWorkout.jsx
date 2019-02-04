@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { connect } from "react-redux";
 import { addWorkout } from "redux/actions";
@@ -205,6 +206,12 @@ class NewWorkout extends React.Component {
     );
   }
 }
+
+NewWorkout.propTypes = {
+  exercises: PropTypes.arrayOf(PropTypes.object),
+  allWorkouts: PropTypes.object,
+  addWorkout: PropTypes.func
+};
 
 export default connect(
   mapStateToProps,

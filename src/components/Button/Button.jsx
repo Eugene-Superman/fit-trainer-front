@@ -16,7 +16,7 @@ const styles = theme => ({
 });
 
 function ButtonComponent(props) {
-  const { classes } = props;
+  const { classes, buttonLabel, onClick, buttonImage } = props;
   const adiitionalStyles = props.buttonColor
     ? { backgroundImage: "none", backgroundColor: props.buttonColor }
     : null;
@@ -25,15 +25,20 @@ function ButtonComponent(props) {
       style={adiitionalStyles}
       variant="contained"
       className={classes.button}
-      onClick={props.onClick}
+      onClick={onClick}
     >
-      {props.buttonLabel}
+      {buttonLabel}
+      {buttonImage}
     </Button>
   );
 }
 
 ButtonComponent.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  buttonColor: PropTypes.string,
+  buttonLabel: PropTypes.string,
+  buttonImage: PropTypes.object,
+  onClick: PropTypes.func
 };
 
 export default withStyles(styles)(ButtonComponent);
